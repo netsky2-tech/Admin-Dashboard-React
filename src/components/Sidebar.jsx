@@ -30,7 +30,7 @@ const Sidebar = () => {
             <TooltipComponent content="Menu" position="BottomCenter">
               <button
                 type="button"
-                onClick={() => setActiveMenu((prevActiveMenu) => !prevActiveMenu)}
+                onClick={() => setActiveMenu(!activeMenu)}
                 style={{ color: currentColor }}
                 className="text-xl rounded-full p-3 hover:bg-light-gray mt-4 block md:hidden"
               >
