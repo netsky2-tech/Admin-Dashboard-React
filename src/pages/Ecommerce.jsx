@@ -4,6 +4,7 @@ import { GoPrimitiveDot } from 'react-icons/go'
 import { Stacked, Pie, Button, SparkLine } from '../components'
 import { earningData, SparklineAreaData, ecomPieChartData } from '../data/dummy'
 import { useStateContext } from '../contexts/ContextProvider'
+//import { ToastComponent } from '@syncfusion/ej2-react-notifications';
 
 const Ecommerce = () => {
   return (
