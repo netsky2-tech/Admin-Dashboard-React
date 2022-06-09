@@ -32,7 +32,7 @@ const Register = () => {
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
 
-    const register_url = '/register';
+    const register_url = 'api/register';
 
     useEffect(() => {
         userRef.current.focus();
@@ -40,15 +40,15 @@ const Register = () => {
 
     useEffect(() =>{
         const result = username_regex.test(user);
-        console.log(result);
-        console.log(user);
+        //console.log(result);
+        //console.log(user);
         setValidName(result);
     }, [user])
 
     useEffect(() =>{
         const result = password_regex.test(pswd);
-        console.log(result);
-        console.log(pswd);
+        //console.log(result);
+        //console.log(pswd);
         setValidPswd(result);
         const match = pswd === matchPswd;
         setValidMatch(match);
@@ -67,14 +67,19 @@ const Register = () => {
             return;
         }
         try {
-            const response = await axios.post(register_url, JSON.stringify({ user, pswd }),{
-                headers: {'Content-Type' : 'application/json'},
+            const response = await axios.post(register_url, JSON.stringify({ username : user, pswd : pswd }),
+            {
+                headers: {
+                'Content-Type' : 'application/json',
                 withCredentials: true
-            }).then(() =>{
-                console.log(response.data)
+            },
+                
+            }
+            );
+                console.log(JSON.stringify(response.data))
                 setSuccess(true);
                 // Limpiar campos..
-            })
+           
         } catch (error) {
             if(!errMsg.response){
                 setErrMsg('No hubo respuesta del servidor')
@@ -103,7 +108,7 @@ const Register = () => {
         <form onSubmit={handleSubmit}>
             <label htmlFor="username">Nombre de usuario:</label>
 
-            <input type="text" id='username' ref={userRef} autoComplete="off" 
+            <input type="text" id='username' ref={userRef} autoComplete="off" name='username'
             onChange={(e) => setUser(e.target.value)} required aria-invalid={validName ? "false" : "true"} 
             aria-describedby="uidnote" onFocus={() => setUserFocus(true)} onBlur={() => setUserFocus(false)} />
             {/* Mostrar alerta de validación de nombre de usuario*/}
@@ -143,6 +148,7 @@ const Register = () => {
                         <input
                             type="password"
                             id="confirm_pwd"
+                            name="pswd"
                             onChange={(e) => setMatchPswd(e.target.value)}
                             value={matchPswd}
                             required
