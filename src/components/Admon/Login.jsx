@@ -3,7 +3,7 @@ import { loginFields } from "../../contexts/FormFields";
 import Input from "./Input";
 import FormAction from "./FormAction";
 import FormExtra from "./FormExtra";
-import axios from '../../Services/axios';
+import axiosCliente from '../../Services/axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import useAuth from '../../hooks/useAuth'
@@ -49,14 +49,9 @@ export default function Login(){
 
     const handleSubmit= async (e) => {
         e.preventDefault();
-            const response = await axios.post(login_url,
-                JSON.stringify({username:loginState.username, pswd: loginState.pswd}),
-                {
-                    headers: {
-                        'Content-Type' : 'application/json',
-                        withCredentials: true
-                },
-                }).then((res) =>{
+            const response = await axiosCliente.post(login_url,
+                JSON.stringify({username:loginState.username, pswd: loginState.pswd})
+                ).then((res) =>{
                     setAuth(res.data?.Outcome);
                     navigate(from, { replace: true });
                     console.log(res.data?.Message);

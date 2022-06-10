@@ -870,6 +870,14 @@ export const userProfileData = [
   },
 ];
 
+const format = {
+  currency: 'NIO',
+  format: 'C2',
+  maximumSignificantDigits: 3,
+  minimumSignificantDigits: 1,
+  useGrouping: false
+};
+
 export const ordersGrid = [
   {
     headerText: 'Image',
@@ -892,7 +900,7 @@ export const ordersGrid = [
   {
     field: 'TotalAmount',
     headerText: 'Total Amount',
-    format: 'C2',
+    format: {format},
     textAlign: 'Center',
     editType: 'numericedit',
     width: '150',

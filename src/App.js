@@ -34,9 +34,10 @@ const App = () => {
           {/*Instancia a layout y sus childrens - Rutas protegidas*/}
           <Route path="/" element={<Layout/>}>
             <Route path="/ecommerce" element={(<Ecommerce />)} />
-
+            <Route path="/orders" element={(<Orders />)} />
+            
             <Route element={<RequiereAuth></RequiereAuth>}>
-                <Route path="/orders" element={(<Orders />)} />
+                
             </Route>
 
           </Route>
