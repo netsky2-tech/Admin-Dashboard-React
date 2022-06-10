@@ -6,6 +6,8 @@ import FormExtra from "./FormExtra";
 import axios from '../../Services/axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import useAuth from '../../hooks/useAuth'
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 
 const fields=loginFields;
@@ -14,6 +16,10 @@ fields.forEach(field=>fieldsState[field.id]='');
 
 export default function Login(){
 
+    const  [auth, setAuth]  = useState();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
     const login_url = 'api/Login';
     const userRef = useRef();
     const errRef = useRef();
@@ -21,7 +27,6 @@ export default function Login(){
     const [user, setUser] = useState('');
     const [pswd, setPswd] = useState('');
     const [errMsg, setErrMsg] = useState('');
-    const [success, setSuccess] = useState('');
     const [loginState,setLoginState]=useState(fieldsState);
 
    /* useEffect(()=>{
@@ -37,60 +42,30 @@ export default function Login(){
     }
 
 
+
+     function handleClick() {
+        navigate("../ecommerce", { replace: true });
+    }
+
     const handleSubmit= async (e) => {
         e.preventDefault();
-
-        try {
             const response = await axios.post(login_url,
-                JSON.stringify({loginState}),
+                JSON.stringify({username:loginState.username, pswd: loginState.pswd}),
                 {
                     headers: {
                         'Content-Type' : 'application/json',
                         withCredentials: true
                 },
+                }).then((res) =>{
+                    setAuth(res.data?.Outcome);
+                    navigate(from, { replace: true });
+                    console.log(res.data?.Message);
+                    console.log(JSON.stringify(res?.data));
                 });
-                if(response.data?.Outcome === false){
-                    <ToastContainer
-                        position="top-right"
-                        autoClose={5000}
-                        hideProgressBar={false}
-                        newestOnTop={false}
-                        closeOnClick
-                        rtl={false}
-                        pauseOnFocusLoss
-                        draggable
-                        pauseOnHover
-                    />
-                    {/* Same as */}
-                    <ToastContainer />
-                    console.log(response.data?.Message)
-                }    
-                console.log(JSON.stringify(response?.data));
-                //console.log(JSON.stringify(response));
-                //setLoginState('');
-                setSuccess(true);
-        } catch (error) {
-            if(!error.response){
-                setErrMsg("No hubo respuesta del servidor")
-            }else if(error.response?.status === 400){
-                setErrMsg("Usuario o contraseña invalido")
-            }else if(error.response?.status === 401){
-                setErrMsg("Sin autorización")
-            }else {
-                setErrMsg("El inicio de sesión ha fallado");
-            }
-            //errRef.current.focus();
-        }
-
     }
  
     return(
-        <>
-            {success ? (
-                <section>
-                    <h1>You are logged in</h1>
-                </section>
-            ) : (
+
                 <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
                 <p ref={errRef} className={errMsg ? "errMsg" : "offscreen"} aria-live = "assertive">{errMsg}</p>
                 <div className="-space-y-px">
@@ -116,10 +91,10 @@ export default function Login(){
 
         <FormExtra/>
         <FormAction handleSubmit={handleSubmit} text="Inicia sesión"/>
-       
+       <ToastContainer></ToastContainer>
       </form>
 
-      )}</>
+      
         
     )
 }
