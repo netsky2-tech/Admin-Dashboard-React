@@ -16,6 +16,7 @@ export const ContextProvider = ({ children }) => {
   const [themeSettings, setThemeSettings] = useState(false);
   const [activeMenu, setActiveMenu] = useState(true);
   const [isClicked, setIsClicked] = useState(initialState);
+    const [auth, setAuth] = useState(undefined);
 
   const setMode = (e) => {
     setCurrentMode(e.target.value);
@@ -29,7 +30,7 @@ export const ContextProvider = ({ children }) => {
 
   const handleClick = (clicked) => setIsClicked({ ...initialState, [clicked]: true });
 
-  const [auth, setAuth] = useState({});
+
 
   return (
     // eslint-disable-next-line react/jsx-no-constructed-context-values

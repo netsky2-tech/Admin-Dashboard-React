@@ -20,6 +20,15 @@ import { Edit, Delete } from "@material-ui/icons";
 import axiosCliente from "../Services/axios";
 
 const Employees = () => {
+
+            useEffect(() => {
+              const auth = JSON.parse(localStorage.getItem("username"));
+              if(!auth){
+                window.location.href = "./ ";
+              }
+              //console.log(auth);
+            }, []);
+
   const useStyles = makeStyles((theme) => ({
     modal: {
       position: "absolute",
@@ -90,7 +99,7 @@ const Employees = () => {
     axiosCliente.get(list_category_url).then((res) => {
       setCategories(res?.data);
       //console.log(res.data?.Message);
-      console.log(JSON.stringify(res?.data));
+      //console.log(JSON.stringify(res?.data));
     });
   }, []);
 
@@ -162,7 +171,7 @@ const Employees = () => {
       axiosCliente.get(list_categorias_url).then((res) => {
         setCategorias(res?.data);
         //console.log(res.data?.Message);
-        console.log(JSON.stringify(res?.data));
+        //console.log(JSON.stringify(res?.data));
       });
     }, []);
 
@@ -237,13 +246,11 @@ const Employees = () => {
         value={consolaSeleccionada && consolaSeleccionada.Descripcion}
       />
       <br />
-      <TextField
-        name="Idcategoria"
-        className={styles.inputMaterial}
-        label="Idcategoria"
-        onChange={handleChange}
-        value={consolaSeleccionada && consolaSeleccionada.Idcategoria}
-      />
+      <Select label="descripcion" name="IDCategoria" onChange={handleChange}>
+        {categorias.map((consola) => (
+          <MenuItem value={consola.IDCategoria}>{consola.Nombre}</MenuItem>
+        ))}
+      </Select>
       <br />
       <br />
       <br />

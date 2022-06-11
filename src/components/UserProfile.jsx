@@ -7,7 +7,8 @@ const UserProfile = () => {
 
   const cerrarSesion = () =>{
     cookies.remove("Message");
-    window.location.href = "./login ";
+    localStorage.removeItem("username");
+    window.location.href = "./ ";
   }
   return (
     <div><button onClick={cerrarSesion}>Cerrar sesión</button></div>

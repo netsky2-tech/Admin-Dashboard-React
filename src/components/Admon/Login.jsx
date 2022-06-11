@@ -16,6 +16,9 @@ fields.forEach(field=>fieldsState[field.id]='');
 
 export default function Login(){
 
+
+
+
     const  [auth, setAuth]  = useState();
     const navigate = useNavigate();
     const location = useLocation();
@@ -29,6 +32,7 @@ export default function Login(){
     const [errMsg, setErrMsg] = useState('');
     const [loginState,setLoginState]=useState(fieldsState);
 
+    
    /* useEffect(()=>{
         userRef.current.focus();
     }, [])*/
@@ -46,6 +50,10 @@ export default function Login(){
      function handleClick() {
         navigate("../ecommerce", { replace: true });
     }
+
+    useEffect(() =>{
+      localStorage.setItem("username", JSON.stringify(loginState.username));
+    },[loginState.username])
 
     const cookies = new Cookies;
     const handleSubmit= async (e) => {
@@ -66,7 +74,8 @@ export default function Login(){
                 return response.data;
               })
               .then((response) => {
-                console.log(response);
+                //console.log(response);
+                setAuth(response.Outcome);
                 if (response.Outcome === true) {
                   var respuesta = response[0];
                   cookies.set("Message", response.Message, {

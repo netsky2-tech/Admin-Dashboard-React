@@ -29,15 +29,17 @@ const App = () => {
   return (
         <Routes>
           {/*Instancia a login sin layout*/}
-          <Route path="/login" element={<Login/>} />
+          <Route path="/" element={<Login/>} />
 
           {/*Instancia a layout y sus childrens - Rutas protegidas*/}
           <Route path="/" element={<Layout/>}>
-            <Route path="/dashboard" element={(<Ecommerce />)} />
+
+                       <Route path="/dashboard" element={(<Ecommerce />)} />
             <Route path="/categorias" element={(<Orders />)} />
             <Route path="/productos" element={(<Employees />)} />
-            
-            <Route element={<RequiereAuth></RequiereAuth>}>
+            <Route element={<RequiereAuth>
+
+            </RequiereAuth>}>
                 
             </Route>
 

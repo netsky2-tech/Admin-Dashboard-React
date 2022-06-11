@@ -18,6 +18,15 @@ import { Edit, Delete } from "@material-ui/icons";
 import axiosCliente from "../Services/axios";
 
 const Orders = () => {
+
+            useEffect(() => {
+              const auth = JSON.parse(localStorage.getItem("username"));
+              if (!auth) {
+                window.location.href = "./ ";
+              }
+              //console.log(auth);
+            }, []);
+
   const useStyles = makeStyles((theme) => ({
     modal: {
       position: "absolute",
