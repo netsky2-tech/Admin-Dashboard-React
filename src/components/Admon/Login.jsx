@@ -8,7 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import useAuth from '../../hooks/useAuth'
 import { Link, useNavigate, useLocation } from "react-router-dom";
-
+import Cookies from 'universal-cookie'
 
 const fields=loginFields;
 let fieldsState = {};
@@ -47,16 +47,36 @@ export default function Login(){
         navigate("../ecommerce", { replace: true });
     }
 
+    const cookies = new Cookies;
     const handleSubmit= async (e) => {
         e.preventDefault();
-            const response = await axiosCliente.post(login_url,
-                JSON.stringify({username:loginState.username, pswd: loginState.pswd})
-                ).then((res) =>{
-                    setAuth(res.data?.Outcome);
-                    navigate(from, { replace: true });
-                    console.log(res.data?.Message);
-                    console.log(JSON.stringify(res?.data));
-                });
+            const response = await axiosCliente
+              .post(
+                login_url,
+                JSON.stringify({
+                  username: loginState.username,
+                  pswd: loginState.pswd,
+                })
+              )
+              .then((response) => {
+                setAuth(response.data?.Outcome);
+                //navigate(from, { replace: true });
+                //console.log(res.data?.Message);
+                // console.log(JSON.stringify(res?.data));
+                return response.data;
+              })
+              .then((response) => {
+                console.log(response);
+                if (response.Outcome === true) {
+                  var respuesta = response[0];
+                  cookies.set("Message", response.Message, {
+                    path: "/",
+                  });
+                  window.location.href = "./dashboard";
+                } else {
+                  alert("Credenciales no válidas");
+                }
+              });
     }
  
     return(

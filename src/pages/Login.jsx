@@ -10,8 +10,8 @@ export default function LoginPage(){
     <div className="max-w-md w-full space-y-8">
              <Header
                 heading="Inicia sesión"
-                paragraph="No tienes cuenta aún? "
-                linkName="Registrate"
+                paragraph=" "
+                linkName=""
                 linkUrl="/register"
                 />
             <Login/>
